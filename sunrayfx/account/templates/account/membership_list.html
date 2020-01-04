@@ -1,0 +1,58 @@
+{% extends 'tutorial/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="" style="padding-bottom: 50px;"  id="home-section">
+    <div class="slide-2"  data-stellar-background-ratio="0.5">
+        
+        </div>
+
+</div>
+
+<div class="site-section" id="teachers-section">
+        <div class="container">
+  
+          <div class="row mb-5 justify-content-center">
+            <div class="col-lg-7 mb-5 text-center">
+              <h2 class="section-title">Select a Plan</h2>
+             
+            </div>
+          </div>
+  
+          <div class="row justify-content-center ">
+            {% for object in object_list %}
+
+
+            
+            <div class="col-md-6 col-lg-4 mb-4">
+              <div class="teacher text-center">
+                <img src=" {% static 'tutorial/images/person_1.jpg' %}" alt="Image" class="img-fluid w-50 rounded-circle mx-auto mb-4">
+                <div class="py-2">
+                  <h3 class="text-black"> {{object.membership_type}} </h3>
+                  <p class="position"> &#x20A6; {{ object.price }} <small> / month </small> </p>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro eius suscipit delectus enim iusto tempora, adipisci at provident.</p>
+                  {% if object.membership_type != 'Free' %}
+                  <form method="POST" action=" {% url 'account:select' %} ">
+                    {% csrf_token %}
+                    {% if object.membership_type != current_membership %}
+                    <button class="btn btn-warning"> Upgrade </button>
+                    {% else %}
+                    <small> This is your current plan </small>
+                    {% endif %}
+                    <input type="hidden" name="membership_type" value="{{object.membership_type}}">
+                  </form>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+  
+            {% endfor %}
+  
+            
+          </div>
+        </div>
+      </div>
+
+{% endblock %}

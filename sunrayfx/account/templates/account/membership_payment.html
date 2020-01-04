@@ -1,0 +1,108 @@
+{% extends 'tutorial/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+
+
+<div class="" style="padding-bottom: 50px;"  id="home-section">
+    <div class="slide-2"  data-stellar-background-ratio="0.5">
+        
+        </div>
+
+</div>
+
+<div class="container site-section">
+        <h1> Payment </h1>
+    <div class="row">
+        
+        <div class="col-sm-4 col-md-4">
+            <p> Selected Membership: {{ selected_membership }} </p>
+            <p> Selected Membership: NGN {{ selected_membership.price }} </p>
+
+            <form action="" id="payment-form" method="POST">
+            {% csrf_token %}
+
+            <script src="https://js.paystack.co/v1/inline.js"></script>
+             
+
+            <input class="pay-price" type="hidden" value="{{selected_membership.price}}">
+
+            <!-- <input class="key" type="hidden" value="{{paystack_secret_key}}"> -->
+
+            <input class="pay-email" type="hidden" value="{{request.user.email}}">
+
+            <button class="pay-btn" onclick="payWithPaystack()" type="button"> Pay </button>
+            
+        </form> 
+ 
+        </div>
+        <div class="resp">
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script>
+
+        var formm = document.getElementsById("payment-form");
+          formm.addEventListener("submit", function(event){
+            event.preventDefault();
+            });
+
+        
+        function payWithPaystack(){
+          var userEmail = document.getElementsByClassName("pay-email").value;
+          var planAmount = document.getElementsByClassName("pay-price").value;
+          var handler = PaystackPop.setup({
+            key: "pk_live_583ae7c7cc1b546837363d24202293879ed8d541",
+            email: "shola@imaginariumng.com",
+            amount: 10000,
+            currency: "NGN",
+            metadata: {
+               custom_fields: [
+                  {
+                      display_name: "Mobile Number",
+                      variable_name: "mobile_number",
+                      value: "+2348012345678"
+                  }
+               ]
+            },
+            callback: function(response){
+
+                var element = document.createElement("input");
+                element.setAttribute("type","hidden");
+                element.setAttribute("name", "paystackToken");
+                element.setAttribute("value", response.reference);
+                var form = document.getElementById("payment-form");
+                form.appendChild(element);
+
+                form.submit()
+            },
+
+            onClose: function(){
+                alert('window closed');
+            }
+
+            
+
+          });
+
+        handler.openIframe();
+        }
+
+       
+
+       
+
+</script>
+
+
+
+{% endblock %}
+

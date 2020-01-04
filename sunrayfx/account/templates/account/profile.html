@@ -1,0 +1,73 @@
+{% extends 'tutorial/base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <div class="intro-section single-cover" id="home-section">
+      
+      <div class="slide-1 " style="background-image: url('images/img_2.jpg');" data-stellar-background-ratio="0.5">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-12">
+              <div class="row justify-content-center align-items-center text-center">
+                <div class="col-lg-6">
+                  <h1 data-aos="fade-up" data-aos-delay="0"> {{ request.user.username }} </h1>
+                  <p data-aos="fade-up" data-aos-delay="100"> 07065907455  &bullet; {{ request.user.email }} </p>
+                </div>
+
+                
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="site-section">
+        <div class="contaier">
+            <div class="row">
+                    <div class="col-lg-6 col-sm-6 pl-lg-5">
+
+                            <div class="mb-5 text-center border rounded course-instructor">
+                              <h3 class="mb-5 text-black text-uppercase h6 border-bottom pb-3">My Subscription </h3>
+                              {% if user_subscription != None %}
+                              <div class="mb-4 text-center">
+                                <img src="images/person_2.jpg" alt="Image" class="w-25 rounded-circle mb-4"> 
+                                <h5> Current Membership: {{ user_membership.membership.membership_type }} <br> <small> since {{ user_subscription.get_created_date }} </small> </h5>
+                                 {% if user_subscription.active != False %}
+                                 <p>Next payment due: {{ user_subscription.get_next_billing_date }} </p>
+                                <a class="btn btn-danger" href="{% url 'account:cancel' %}"> Cancel Subscription </a> 
+                                {% else %}
+                                <p> You don't have an active subscription, Check them out here 
+                                 <a href="{% url 'account:select' %}"> Premium Plans </a>  
+                                </p>
+                                {% endif %}
+                                <!-- <h3 class="h5 text-black mb-4">Edit Account</h3> -->
+                                
+                              </div>
+                              {% endif %}
+                            </div>
+                
+                          </div>
+                          <div class="col-lg-6 col-sm-6 pl-lg-5">
+
+                                <div class="mb-5 text-center border rounded course-instructor">
+                                  <h3 class="mb-5 text-black text-uppercase h6 border-bottom pb-3">My Subscription</h3>
+                                  <div class="mb-4 text-center">
+                                    <img src="images/person_2.jpg" alt="Image" class="w-25 rounded-circle mb-4">  
+                                    <h3 class="h5 text-black mb-4">Edit Billing Info </h3>
+                                    
+                                  </div>
+                                </div>
+                    
+                              </div>
+            </div>
+            
+        </div>
+
+    </div>
+
+    
+   
+    {% endblock %}
